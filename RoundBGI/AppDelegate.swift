@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let fileManager = FileManager.default
 
     // 需要的图片文件后缀
-    let filteredTypes = [String](arrayLiteral: "jpg", "png", "jpeg")
+    let filteredTypes = [String](arrayLiteral: "jpg", "png", "jpeg","heic")
 
     // image 集合
     var imageCollection = [NSURL]()
@@ -31,8 +31,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
     @IBOutlet weak var menu: NSMenu!
-
-
+    
+    @IBOutlet weak var runStatusMenu: NSMenuItem!
+    
+    @IBAction func runStatusMenuOnClick(_ sender: Any) {
+        
+    }
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Create the SwiftUI view that provides the window contents.
         // let contentView = ContentView()
@@ -77,7 +82,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func actionForSetImgDir(_ sender: Any) {
-        print("选择图片目录")
+        print("选择图片目录......")
         let openPanel = NSOpenPanel()
         // Set openPanel settings for just directories
         openPanel.canChooseFiles = false
@@ -98,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // print("filteredFiles: \(filteredFiles)")
 
             let imagePaths = self.filterFilesToImage(files: filteredFiles, filteredTypes: self.filteredTypes)
-
+            var _ = imagePaths
             // 修改背景图
             let imageA = URL(fileURLWithPath: "/Users/sunrise/Pictures/duvor.jpeg")
             do{
@@ -107,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                         NSWorkspace.DesktopImageOptionKey.allowClipping:2
                     ])
                 }
+                
             }catch{
                 print(error)
             }
@@ -181,18 +187,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-        print("程序即将关闭")
+        print("程序即将关闭......")
         // 把壁纸设置回去
-        print("重置壁纸中")
+        print("重置壁纸中......")
         let screens = NSScreen.screens
         for sc in screens {
             let imageAndOptionsDic = self.preBackgroundImagePath[sc]
             guard let value = imageAndOptionsDic?["imageURL"] else {
                 fatalError("guard failure handling has not been implemented")
             }
-            let image = value
             let imageOptions = imageAndOptionsDic?["imageOptions"]
-            let imageStr = image as! URL
+            let imageStr = value as! URL
+            // 获取当前激活keybord的窗口的壁纸url 如果没有修改过 就跳过修改
+            let desktopImageURL = NSWorkspace.shared.desktopImageURL(for: sc)
+            if imageStr == desktopImageURL {
+                print("screen: \(sc.description)壁纸未发生改变，跳过此次重置")
+                continue
+            }
 
             // print("-----: \(imageStr)")
             let imageBackOptions = imageOptions as! [NSWorkspace.DesktopImageOptionKey : Any]?
@@ -203,6 +214,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
             // print("desktopImageURL:\(desktopImageURL)")
         }
+        print("重置壁纸结束......")
     }
 
 

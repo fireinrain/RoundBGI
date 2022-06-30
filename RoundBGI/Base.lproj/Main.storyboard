@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -676,16 +677,24 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="RoundBGI" customModuleProvider="target">
                     <connections>
                         <outlet property="menu" destination="6m7-LK-9hk" id="YTj-ie-I5e"/>
+                        <outlet property="runStatusMenu" destination="P6C-Qm-F3Z" id="oqU-R9-pl5"/>
                     </connections>
                 </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="6m7-LK-9hk">
                     <items>
-                        <menuItem title="设置图片目录" image="NSAddTemplate" keyEquivalent="s" id="TBS-4S-76u">
+                        <menuItem title="添加图片目录" image="NSAddTemplate" keyEquivalent="s" id="TBS-4S-76u">
                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                             <connections>
                                 <action selector="actionForSetImgDir:" target="Voe-Tx-rLC" id="8hO-m8-9wd"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="是否开启" image="NSTouchBarPlayTemplate" keyEquivalent="r" id="P6C-Qm-F3Z">
+                            <attributedString key="attributedTitle"/>
+                            <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                            <connections>
+                                <action selector="runStatusMenuOnClick:" target="Voe-Tx-rLC" id="qbX-l8-GmU"/>
                             </connections>
                         </menuItem>
                         <menuItem title="退出" image="NSStopProgressFreestandingTemplate" keyEquivalent="q" id="EY5-Th-7CW">
@@ -702,5 +711,6 @@
     <resources>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSStopProgressFreestandingTemplate" width="14" height="14"/>
+        <image name="NSTouchBarPlayTemplate" width="14" height="30"/>
     </resources>
 </document>
